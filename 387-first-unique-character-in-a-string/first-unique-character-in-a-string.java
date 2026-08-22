@@ -1,5 +1,7 @@
 class Solution {
     public int firstUniqChar(String s) {
+        //this is my previous approach that used initially:
+        
         // HashMap<Character,Integer> map=new HashMap<>();
         // for(int i=0;i<s.length();i++){
         //     if(map.containsKey(s.charAt(i))){
@@ -16,6 +18,7 @@ class Solution {
         // }
         // return -1;
 
+        //this is the optimised approach I used later
         int []count=new int[26];
         //creating a frequency array..this approach is more optimised
         for(char c:s.toCharArray()){//remember this function is used to convert the given string into a character array as clear from the name
