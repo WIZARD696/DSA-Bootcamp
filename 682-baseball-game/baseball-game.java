@@ -2,7 +2,7 @@ class Solution {
     public int calPoints(String[] operations) {
         Stack<Integer> stack=new Stack<>();
         for(String ch:operations){
-            if(ch.equals("C")){//''-->
+            if(ch.equals("C")){//''-->single quotes represent a Character in java and " "--> represents a String in java 
                 stack.pop();
             }
             else if(ch.equals("D")){
