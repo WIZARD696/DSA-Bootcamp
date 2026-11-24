@@ -69,18 +69,59 @@
 //         }
 //         return dp[i][j1][j2] = maxi;
 //     }
+//Tabulation method
+// class Solution {
+//     public int cherryPickup(int[][] grid) {
+//         int[][][] dp = new int[grid.length][grid[0].length][grid[0].length];
+//         for (int j1 = 0; j1 < grid[0].length; j1++) {
+//             for (int j2 = 0; j2 < grid[0].length; j2++) {
+//                 if (j1 == j2)
+//                     dp[grid.length - 1][j1][j2] = grid[grid.length - 1][j1];
+//                 else
+//                     dp[grid.length - 1][j1][j2] = grid[grid.length - 1][j1] + grid[grid.length - 1][j2];
+//             }
+//         }
+//         for (int i = grid.length - 2; i >= 0; i--) {
+//             for (int j1 = 0; j1 < grid[0].length; j1++) {
+//                 for (int j2 = 0; j2 < grid[0].length; j2++) {
+//                     int maxi = Integer.MIN_VALUE;
+//                     for (int dj1 = -1; dj1 <= +1; dj1++) {
+//                         for (int dj2 = -1; dj2 <= +1; dj2++) {
+//                             int value = 0;
+//                             if (j1 == j2)
+//                                 value = grid[i][j1];
+//                             else
+//                                 value = grid[i][j1] + grid[i][j2];
+
+//                             if (j1 + dj1 >= 0 && j2 + dj2 >= 0 && j1 + dj1 < grid[0].length
+//                                     && j2 + dj2 < grid[0].length) {
+//                                 value += dp[i + 1][j1 + dj1][j2 + dj2];
+//                             }
+//                             maxi = Math.max(maxi, value);
+//                         }
+//                     }
+//                     dp[i][j1][j2]=maxi;
+//                 }
+//             }
+//         }
+//         return dp[0][0][grid[0].length - 1];
+//     }
+// }
+
+//Space-Optimisation Technique
 class Solution {
     public int cherryPickup(int[][] grid) {
-        int[][][] dp = new int[grid.length][grid[0].length][grid[0].length];
+        int[][] front = new int[grid[0].length][grid[0].length];//this is for the j1 j2 variables 
         for (int j1 = 0; j1 < grid[0].length; j1++) {
             for (int j2 = 0; j2 < grid[0].length; j2++) {
                 if (j1 == j2)
-                    dp[grid.length - 1][j1][j2] = grid[grid.length - 1][j1];
+                    front[j1][j2] = grid[grid.length - 1][j1];
                 else
-                    dp[grid.length - 1][j1][j2] = grid[grid.length - 1][j1] + grid[grid.length - 1][j2];
+                    front[j1][j2] = grid[grid.length - 1][j1] + grid[grid.length - 1][j2];
             }
         }
         for (int i = grid.length - 2; i >= 0; i--) {
+            int[][] curr = new int[grid[0].length][grid[0].length];
             for (int j1 = 0; j1 < grid[0].length; j1++) {
                 for (int j2 = 0; j2 < grid[0].length; j2++) {
                     int maxi = Integer.MIN_VALUE;
@@ -94,15 +135,16 @@ class Solution {
 
                             if (j1 + dj1 >= 0 && j2 + dj2 >= 0 && j1 + dj1 < grid[0].length
                                     && j2 + dj2 < grid[0].length) {
-                                value += dp[i + 1][j1 + dj1][j2 + dj2];
+                                value += front[j1 + dj1][j2 + dj2];
                             }
                             maxi = Math.max(maxi, value);
                         }
                     }
-                    dp[i][j1][j2]=maxi;
+                    curr[j1][j2] = maxi;
                 }
             }
+            front = curr;
         }
-        return dp[0][0][grid[0].length - 1];
+        return front[0][grid[0].length - 1];
     }
 }
